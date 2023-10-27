@@ -6,33 +6,34 @@ Steps for build application
 Sample Request - Response of calculator rest api:
 
 Addition :-
- Request: GET http://localhost:8080/calculatorapi/v1/addition?num1=10&nuum2=1 
- Response: { "answer": 11, "detail": "10 + 1 = 11" }
+ Request: GET http://localhost:8080/calculatorapi/v1/addition?num1=20&num2=10
+ Response: { "answer": 30, "detail": "20+10=30" }
 
 Subtraction :-
- Request: GET http://localhost:8080/calculatorapi/v1/subtraction?num1=10&nuum2=1 
- Response: { "answer": -3, "detail": "12 - 15 = -3" }
+ Request: GET http://localhost:8080/calculatorapi/v1/subtraction?num1=20&num2=10
+ Response: { "answer": 10, "detail": "20-10=10" }
 
 Multiplication :- 
-Request: GET http://localhost:8080/calculatorapi/v1/multiplication?num1=10&nuum2=2 
-Response: { "answer":20, "detail": "10 * 2 = 20" }
+Request: GET http://localhost:8080/calculatorapi/v1/multiplication?num1=20&num2=10
+Response: { "answer":200, "detail": "20*10=200" }
 
 Division :- 
-Request: GET http://localhost:8080/calculatorapi/v1/division?num1=10.0&num2=5.0 
-Response: { "answer":2, "detail": "10.0/2.0 =55.0" }
+Request: GET http://localhost:8080/calculatorapi/v1/division?num1=20.0&num2=10.0
+Response: { "answer":2.0, "detail": "20.0/10.0=2.0"" }
 
 Square :- 
-Request: GET http://localhost:8080/calculatorapi/v1/square/5 
-Response: {"answer": 25, "detail": "square of 5 = 25" }
+Request: GET http://localhost:8080/calculatorapi/v1/square/5
+Response: {"answer": 25, "detail": "square of 5=25" }
 
 Squareroot :-
- Request: GET http://localhost:8080/calculatorapi/v1/squareroot/16 
- Response: { "answer":4, "detail": "squareroot of 16 = 4" }
+ Request: GET http://localhost:8080/calculatorapi/v1/squareroot/25 
+ Response: { "answer":5, "detail": "Squareroot of 25=5" }
 
 Factorial 
 Request: GET http://localhost:8080/calculatorapi/v1/factorial/5 
-Response: { "answer": 120, "detail": "5! = 120" }
+Response: { "answer": 120, "detail": "Factorial of 5=120" }
 
 Max-min :- 
-Request: POST http://localhost:8080/calculatorapi/v1/max-min Body { "numbers" : [1,3,2,5,3,6,7] } 
-Response: { "min": 1, "max": 7 }
+Request: POST  http://localhost:8080/calculatorapi/v1/max-min 
+Body { "numbers" : [1,3,2,5,3,6,7] } 
+Response: { "max": 7, "min": 1 }
