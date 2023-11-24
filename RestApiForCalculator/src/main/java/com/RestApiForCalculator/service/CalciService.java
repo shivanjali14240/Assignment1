@@ -1,10 +1,8 @@
 package com.RestApiForCalculator.service;
 
-import org.springframework.stereotype.Service;
-
 import com.RestApiForCalculator.model.Response;
 
-@Service
+
 public interface CalciService {
 	int add(int num1, int num2);
 

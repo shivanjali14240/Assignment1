@@ -1,5 +1,8 @@
 package com.RestApiForCalculator;
 
+import java.util.Arrays;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.RestApiForCalculator.model.MaxMinRequest;
 import com.RestApiForCalculator.model.Response;
-import com.RestApiForCalculator.service.CalciService;
+import com.RestApiForCalculator.service.CalciServiceImpl;
+
+import ch.qos.logback.classic.Logger;
 
 @RestController
 @RequestMapping("/calculatorapi/v1")
 public class CalciController {
 
 	@Autowired
-	CalciService CalciService;
+	CalciServiceImpl CalciService;
+
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(CalciController.class);
 
 	@GetMapping("/addition")
 	public ResponseEntity<Response> addition(@RequestParam("num1") int num1, @RequestParam("num2") int num2) {
@@ -29,6 +36,8 @@ public class CalciController {
 		Response res = new Response();
 		res.setAnswer(addition);
 		res.setDetails(details);
+		logger.info("Request: Addition, Num1: {}, Num2: {}. Response: {}", num1, num2, res);
+		CalciService.saveLog(num1 + ", " + num2, res.toString());
 		return ResponseEntity.ok(res);
 
 	}
@@ -40,6 +49,8 @@ public class CalciController {
 		Response res = new Response();
 		res.setAnswer(subtraction);
 		res.setDetails(details);
+		logger.info("Request: subtraction, Num1: {}, Num2: {}. Response: {}", num1, num2, res);
+		CalciService.saveLog(num1 + ", " + num2, res.toString());
 		return ResponseEntity.ok(res);
 
 	}
@@ -51,6 +62,8 @@ public class CalciController {
 		Response res = new Response();
 		res.setAnswer(multiplication);
 		res.setDetails(details);
+		logger.info("Request: multiplication, Num1: {}, Num2: {}. Response: {}", num1, num2, res);
+		CalciService.saveLog(num1 + ", " + num2, res.toString());
 		return ResponseEntity.ok(res);
 
 	}
@@ -62,9 +75,10 @@ public class CalciController {
 		try {
 			double division = CalciService.divison(num1, num2);
 			String details = num1 + "/" + num2 + "=" + division;
-
 			res.setAnswer(division);
 			res.setDetails(details);
+			logger.info("Request: division, Num1: {}, Num2: {}. Response: {}", num1, num2, res);
+			CalciService.saveLog(num1 + ", " + num2, res.toString());
 			return ResponseEntity.ok(res);
 		} catch (IllegalArgumentException ex) {
 			res.setDetails(ex.getMessage());
@@ -79,6 +93,9 @@ public class CalciController {
 		Response response = new Response();
 		response.setAnswer(square);
 		response.setDetails("square of " + num + "=" + square);
+		logger.info("Request: square, num: {}. Response: {}", num, response);
+		CalciService.saveLog("num", response.toString());
+
 		return ResponseEntity.ok(response);
 	}
 
@@ -89,6 +106,8 @@ public class CalciController {
 			int squareRoot = CalciService.squareRoot(num);
 			response.setAnswer(squareRoot);
 			response.setDetails("Squareroot of " + num + "=" + squareRoot);
+			logger.info("Request: squareRoot, num: {}. Response: {}", num, response);
+			CalciService.saveLog("num", response.toString());
 			return ResponseEntity.ok(response);
 		} catch (IllegalArgumentException e) {
 			response.setDetails(e.getMessage());
@@ -104,9 +123,12 @@ public class CalciController {
 			long fact = CalciService.factorial(num);
 			response.setAnswer(fact);
 			response.setDetails("Factorial of " + num + "=" + fact);
+			logger.info("Request: factorial, num: {}. Response: {}", num, response);
+			CalciService.saveLog("num", response.toString());
 			return ResponseEntity.ok(response);
 		} catch (IllegalArgumentException e) {
 			response.setDetails(e.getMessage());
+			logger.error("Error in factorial : {}", response);
 			return ResponseEntity.ok(response);
 		}
 
@@ -116,12 +138,15 @@ public class CalciController {
 	public Response maxMin(@RequestBody MaxMinRequest request) {
 		int[] numbers = request.getNumbers();
 		try {
-			return CalciService.maxMin(numbers);
+			Response response = CalciService.maxMin(numbers);
+			logger.info("Request: MaxMin, Numbers: {}. Response:{}", Arrays.toString(numbers), response);
+			CalciService.saveLog(Arrays.toString(numbers), response.toString());
+			return response;
 		} catch (IllegalArgumentException ex) {
 			Response res = new Response();
 			res.setDetails(ex.getMessage());
+			logger.error("Error in MaxMin calculation: {}", res);
 			return res;
 		}
 	}
-
 }

@@ -1,6 +1,8 @@
 com\RestApiForCalculator\model\MaxMinRequest.class
 com\RestApiForCalculator\service\CalciServiceImpl.class
 com\RestApiForCalculator\service\CalciService.class
+com\RestApiForCalculator\repository\CalciRepo.class
 com\RestApiForCalculator\CalciController.class
 com\RestApiForCalculator\RestApiForCalculatorApplication.class
+com\RestApiForCalculator\model\RequestResponseTimestampEntity.class
 com\RestApiForCalculator\model\Response.class

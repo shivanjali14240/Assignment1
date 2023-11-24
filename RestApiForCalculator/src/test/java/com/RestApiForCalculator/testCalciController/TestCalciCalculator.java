@@ -1,143 +1,176 @@
 package com.RestApiForCalculator.testCalciController;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import com.RestApiForCalculator.CalciController;
+import com.RestApiForCalculator.model.MaxMinRequest;
 import com.RestApiForCalculator.model.Response;
-import com.RestApiForCalculator.service.CalciService;
+import com.RestApiForCalculator.service.CalciServiceImpl;
 
-@WebMvcTest(CalciController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class TestCalciCalculator {
-	@Autowired
-	private MockMvc mockMvc;
 
-	@MockBean
-	private CalciService calciService;
+	@Mock
+	private CalciServiceImpl calciService;
+
+	@InjectMocks
+	private CalciController calciController;
 
 	@Test
-	public void testAddition() throws Exception {
-		int num1 = 4;
-		int num2 = 2;
-		int expectedResult = 6;
+	void addition() {
+		int num1 = 5;
+		int num2 = 10;
+		int expectedResult = 15;
+
 		when(calciService.add(num1, num2)).thenReturn(expectedResult);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/calculatorapi/v1/addition?num1=4&num2=2"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.answer").value(expectedResult))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.details").value("4+2=6"));
+		ResponseEntity<Response> responseEntity = calciController.addition(num1, num2);
 
+		assertNotNull(responseEntity);
+		assertEquals(200, responseEntity.getStatusCodeValue());
+
+		Response responseBody = responseEntity.getBody();
+		assertNotNull(responseBody);
+		assertEquals(expectedResult, responseBody.getAnswer());
+
+		verify(calciService, times(1)).add(num1, num2);
+		verify(calciService, times(1)).saveLog(eq(num1 + ", " + num2), anyString());
 	}
 
 	@Test
-	public void testSubtraction() throws Exception {
-		int num1 = 4;
-		int num2 = 2;
-		int expectedResult = 2;
+	void subctraction() {
+		int num1 = 10;
+		int num2 = 5;
+		int expectedResult = 5;
+
 		when(calciService.substract(num1, num2)).thenReturn(expectedResult);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/calculatorapi/v1/subtraction?num1=4&num2=2"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.answer").value(expectedResult))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.details").value("4-2=2"));
+		ResponseEntity<Response> responseEntity = calciController.subtraction(num1, num2);
+
+		assertNotNull(responseEntity);
+		assertEquals(200, responseEntity.getStatusCodeValue());
+
+		Response responseBody = responseEntity.getBody();
+		assertNotNull(responseBody);
+		assertEquals(expectedResult, responseBody.getAnswer());
+
+		verify(calciService, times(1)).substract(num1, num2);
+		verify(calciService, times(1)).saveLog(eq(num1 + ", " + num2), anyString());
 	}
 
 	@Test
-	public void testMultiplication() throws Exception {
-		int num1 = 2;
-		int num2 = 2;
-		int expectedResult = 4;
+	void multiplication() {
+		int num1 = 5;
+		int num2 = 10;
+		int expectedResult = 50;
+
 		when(calciService.multiply(num1, num2)).thenReturn(expectedResult);
-		mockMvc.perform(MockMvcRequestBuilders.get("/calculatorapi/v1/multiplication?num1=2&num2=2"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.answer").value(expectedResult))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.details").value("2*2=4"));
 
+		ResponseEntity<Response> responseEntity = calciController.multiplication(num1, num2);
+
+		assertNotNull(responseEntity);
+		assertEquals(200, responseEntity.getStatusCodeValue());
+
+		Response responseBody = responseEntity.getBody();
+		assertNotNull(responseBody);
+		assertEquals(expectedResult, responseBody.getAnswer());
+
+		verify(calciService, times(1)).multiply(num1, num2);
+		verify(calciService, times(1)).saveLog(eq(num1 + ", " + num2), anyString());
 	}
 
 	@Test
-	public void testDivision() throws Exception {
-		double num1 = 6.0;
-		double num2 = 2.0;
-		double expectedResult = 3.0;
+	void testDivision() {
+		double num1 = 10;
+		double num2 = 2;
+		double expectedResult = 5;
 
 		when(calciService.divison(num1, num2)).thenReturn(expectedResult);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/calculatorapi/v1/division?num1=6.0&num2=2.0"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.answer").value(expectedResult))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.details").value("6.0/2.0=3.0"));
+		ResponseEntity<Response> responseEntity = calciController.division(num1, num2);
+
+		assertNotNull(responseEntity);
+		assertEquals(200, responseEntity.getStatusCodeValue());
+
+		Response responseBody = responseEntity.getBody();
+		assertNotNull(responseBody);
+		assertEquals(expectedResult, responseBody.getAnswer());
+
+		verify(calciService, times(1)).divison(num1, num2);
+		verify(calciService, times(1)).saveLog(eq(num1 + ", " + num2), anyString());
 	}
 
 	@Test
-	public void testSquare() throws Exception {
-		when(calciService.square(5)).thenReturn(25);
+	void squareRoot() {
+		int num = 25;
+		int expectedResult = 5;
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/calculatorapi/v1/square/5")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.answer").value(25))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.details").value("square of 5=25"));
-    
+		when(calciService.squareRoot(num)).thenReturn(expectedResult);
+
+		ResponseEntity<Response> responseEntity = calciController.squareRoot(num);
+
+		assertNotNull(responseEntity);
+		assertEquals(200, responseEntity.getStatusCodeValue());
+
+		Response responseBody = responseEntity.getBody();
+		assertNotNull(responseBody);
+		assertEquals(expectedResult, responseBody.getAnswer());
+
+		verify(calciService, times(1)).squareRoot(num);
+		verify(calciService, times(1)).saveLog(eq("num"), anyString());
 	}
 
 	@Test
-	public void testSquareroot() throws Exception {
-		when(calciService.squareRoot(16)).thenReturn(4);
+	void factorial() {
+		int num = 5;
+		long expectedResult = 120;
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/calculatorapi/v1/squareroot/16")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.answer").value(4))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.details").value("Squareroot of 16=4"));
-    
+		when(calciService.factorial(num)).thenReturn(expectedResult);
+
+		ResponseEntity<Response> responseEntity = calciController.factorial(num);
+
+		assertNotNull(responseEntity);
+		assertEquals(200, responseEntity.getStatusCodeValue());
+
+		Response responseBody = responseEntity.getBody();
+		assertNotNull(responseBody);
+		assertEquals(expectedResult, responseBody.getAnswer());
+
+		verify(calciService, times(1)).factorial(num);
+		verify(calciService, times(1)).saveLog(eq("num"), anyString());
 	}
 
 	@Test
-	public void testFactorial() throws Exception {
-		 when(calciService.factorial(5)).thenReturn(120L);
-
-	        mockMvc.perform(MockMvcRequestBuilders
-	                .get("/calculatorapi/v1/factorial/5")
-	                .contentType(MediaType.APPLICATION_JSON))
-	                .andExpect(MockMvcResultMatchers.status().isOk())
-	                .andExpect(MockMvcResultMatchers.jsonPath("$.answer").value(120))
-	                .andExpect(MockMvcResultMatchers.jsonPath("$.details").value("Factorial of 5=120"));
-	    }
-
-	@Test
-	public void testMaxMin() throws Exception {
-		int[] numbers = { 23, 11, 45, 7, 36 };
-		Response expectedResponse = new Response(45, 7);
+	void maxMin() {
+		int[] numbers = { 3, 7, 1, 9, 5 };
+		Response expectedResponse = new Response();
+		expectedResponse.setAnswer(9);
+		expectedResponse.setDetails("Max: 9, Min: 1");
 
 		when(calciService.maxMin(numbers)).thenReturn(expectedResponse);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/calculatorapi/v1/max-min").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"numbers\":[23,11,45,7,36]}")).andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.max").value(45))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.min").value(7));
-	}
+		Response actualResponse = calciController.maxMin(new MaxMinRequest(numbers));
 
-	@Test
-	public void testMaxMinWithEmptyInput() throws Exception {
-		int[] numbers = {};
-		String errorMessage = "Input array is empty";
+		assertNotNull(actualResponse);
+		assertEquals(expectedResponse.getAnswer(), actualResponse.getAnswer());
+		assertEquals(expectedResponse.getDetails(), actualResponse.getDetails());
 
-		when(calciService.maxMin(numbers)).thenThrow(new IllegalArgumentException(errorMessage));
-
-		mockMvc.perform(MockMvcRequestBuilders.post("/calculatorapi/v1/max-min").contentType(MediaType.APPLICATION_JSON)
-				.content("{\"numbers\":[]}")).andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.details").value(errorMessage));
+		verify(calciService, times(1)).maxMin(numbers);
+		verify(calciService).saveLog(eq("[3, 7, 1, 9, 5]"), eq(" [answer=9, details=Max: 9, Min: 1 ]"));
 	}
 
 }

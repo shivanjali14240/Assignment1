@@ -1,3 +1,5 @@
-C:\Users\shivanjali.shinde\Downloads\RestApiForCalculator\src\test\java\com\RestApiForCalculator\RestApiForCalculatorApplicationTests.java
-C:\Users\shivanjali.shinde\Downloads\RestApiForCalculator\src\test\java\com\RestApiForCalculator\testCalciController\TestCalciCalculator.java
-C:\Users\shivanjali.shinde\Downloads\RestApiForCalculator\src\test\java\com\RestApiForCalculator\testService\TestCalciService.java
+D:\JavaCompetency\Assignment1\RestApiForCalculator\src\test\java\com\RestApiForCalculator\testCalciModel\MaxMinRequestTest.java
+D:\JavaCompetency\Assignment1\RestApiForCalculator\src\test\java\com\RestApiForCalculator\testCalciController\TestCalciCalculator.java
+D:\JavaCompetency\Assignment1\RestApiForCalculator\src\test\java\com\RestApiForCalculator\RestApiForCalculatorApplicationTests.java
+D:\JavaCompetency\Assignment1\RestApiForCalculator\src\test\java\com\RestApiForCalculator\testCalciModel\RequestResponseTimestampEntityTest.java
+D:\JavaCompetency\Assignment1\RestApiForCalculator\src\test\java\com\RestApiForCalculator\testService\TestCalciService.java

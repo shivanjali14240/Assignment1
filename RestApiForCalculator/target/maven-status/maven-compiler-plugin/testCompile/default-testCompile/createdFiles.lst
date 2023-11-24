@@ -1,3 +1,5 @@
+com\RestApiForCalculator\testCalciModel\RequestResponseTimestampEntityTest.class
+com\RestApiForCalculator\testService\TestCalciService.class
 com\RestApiForCalculator\testCalciController\TestCalciCalculator.class
 com\RestApiForCalculator\RestApiForCalculatorApplicationTests.class
-com\RestApiForCalculator\testService\TestCalciService.class
+com\RestApiForCalculator\testCalciModel\MaxMinRequestTest.class
