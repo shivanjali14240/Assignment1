@@ -37,3 +37,7 @@ Max-min :-
 Request: POST  http://localhost:8080/calculatorapi/v1/max-min 
 Body { "numbers" : [1,3,2,5,3,6,7] } 
 Response: { "max": 7, "min": 1 }
+
+
+sample request for swagger 
+http://localhost:8080/swagger-ui/
